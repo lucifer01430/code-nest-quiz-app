@@ -252,11 +252,11 @@ js: [
     ],
     answer: 2
   },
-  {
-    question: "2. How do you write a comment in JavaScript?",
-    options:  ["<!-- comment -->", "# This is a comment", "// This is a comment", "/* comment */"],
-    answer: 2
-  },
+{
+  question: "2. How do you write a comment in JavaScript?",
+  options: ["<!-- comment -->", "# This is a comment", "// This is a comment", "/* comment */"],
+  answer: 2
+},
   {
     question: "3. Which data type is NOT primitive in JavaScript?",
     options: ["Number", "String", "Boolean", "Object"],
@@ -308,6 +308,7 @@ js: [
     answer: 2
   }
 ],
+
 bootstrap: [
   {
     question: "1. What is Bootstrap primarily used for?",
@@ -380,12 +381,10 @@ bootstrap: [
     answer: 1
   }
 ]
-
-
-
-
 };
-const selectedQuiz = localStorage.getItem("selectedQuiz") || "html";
+
+
+const selectedQuiz = (localStorage.getItem("selectedQuiz") || "html").toLowerCase();
 const quizData = allQuizzes[selectedQuiz] || [];
 
 let currentIndex = 0;
@@ -393,44 +392,59 @@ let score = 0;
 let selectedOption = null;
 const userName = localStorage.getItem("username") || "User";
 
-// Map of quiz titles
+// Quiz title mapping
 const quizTitles = {
   html: "HTML Basics",
   css: "CSS Styling",
   js: "JavaScript Essentials",
   computer: "Computer Basics",
-  bootstrap: "Bootstrap Mastery"
+  bootstrap: "Bootstrap Mastery",
 };
 
-// Set username and quiz title
-document.getElementById("userName").innerText = userName;
-document.getElementById("quizTitleText").innerText = quizTitles[selectedQuiz] || "General Quiz";
-
-// Core elements
+// DOM elements
+const userSpan = document.getElementById("userName");
 const finalUserSpan = document.getElementById("finalUserName");
 const questionText = document.getElementById("questionText");
 const optionsContainer = document.getElementById("optionsContainer");
+const quizTitleText = document.getElementById("quizTitleText");
+
+// Set values
+userSpan.innerText = userName;
+quizTitleText.innerText = quizTitles[selectedQuiz] || "Quiz";
 
 function loadQuestion() {
   const q = quizData[currentIndex];
   questionText.innerText = q.question;
   optionsContainer.innerHTML = "";
+
   q.options.forEach((opt, index) => {
     const optId = `opt${index}`;
-    optionsContainer.innerHTML += `
-      <input type="radio" name="option" id="${optId}" value="${index}" ${selectedOption === index ? 'checked' : ''}>
-      <label for="${optId}">${opt}</label>
-    `;
-  });
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("form-check");
 
-  // Add event listener to each option
-  Array.from(optionsContainer.querySelectorAll('input[type="radio"]')).forEach(radio => {
-    radio.addEventListener('change', function () {
-      selectedOption = parseInt(this.value);
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "option";
+    input.id = optId;
+    input.value = index;
+    input.classList.add("form-check-input");
+    if (selectedOption === index) input.checked = true;
+
+    const label = document.createElement("label");
+    label.classList.add("form-check-label");
+    label.setAttribute("for", optId);
+    label.textContent = opt; // Use textContent for safety
+
+    wrapper.appendChild(input);
+    wrapper.appendChild(label);
+    optionsContainer.appendChild(wrapper);
+
+    input.addEventListener("change", () => {
+      selectedOption = parseInt(input.value);
     });
   });
 
-  // Update progress bar
+  // Update progress
   const progress = ((currentIndex) / quizData.length) * 100;
   document.getElementById("progressBar").style.width = `${progress}%`;
 }
@@ -440,9 +454,10 @@ function showResult() {
   document.getElementById("resultBox").style.display = "block";
   finalUserSpan.innerText = userName;
   document.getElementById("scoreDisplay").innerText = score;
-  document.getElementById("resultMessage").innerText = score >= 6
-    ? "🎉 Congratulations, You Passed!"
-    : "❌ Better luck next time.";
+  document.getElementById("resultMessage").innerText =
+    score >= 6
+      ? "🎉 Congratulations, You Passed!"
+      : "❌ Better luck next time.";
   document.getElementById("progressBar").style.width = `100%`;
 }
 
@@ -460,9 +475,22 @@ function startTimer(duration) {
   }, 1000);
 }
 
+
+  setTimeout(() => {
+  console.log(
+    "%c✨ Designed and Developed by Harsh Pandey",
+    "color: #007bff; font-weight: bold; font-size: 16px;"
+  );
+  console.log(
+    "%c🔗 https://lucifer01430.github.io/Portfolio/",
+    "color: #28a745; font-size: 14px;"
+  );
+}, 2000);
+
+// Button listeners
 document.getElementById("nextBtn").addEventListener("click", () => {
   if (selectedOption === null) return alert("Please select an option!");
-  if (selectedOption == quizData[currentIndex].answer) score++;
+  if (selectedOption === quizData[currentIndex].answer) score++;
   currentIndex++;
   selectedOption = null;
   if (currentIndex < quizData.length) {
@@ -480,5 +508,6 @@ document.getElementById("prevBtn").addEventListener("click", () => {
   }
 });
 
+// Init
 loadQuestion();
-startTimer(60 * 20);
+startTimer(60 * 20); 

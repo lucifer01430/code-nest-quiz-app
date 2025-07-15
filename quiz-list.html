@@ -16,6 +16,13 @@
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="css/quiz-list.css">
+  <!-- Favicon -->
+<link rel="icon" type="image/png" href="favicon/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
+<link rel="shortcut icon" href="favicon/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="Quiz Adda" />
+<link rel="manifest" href="favicon/site.webmanifest" />
 </head>
 <body>
 
@@ -26,7 +33,6 @@
 <main>
   <div class="quiz-list-container">
     <div class="quiz-cards" id="quizList">
-      <!-- Quiz cards will be injected here -->
     </div>
   </div>
 </main>
@@ -71,12 +77,6 @@ const quizzes = [
     description: "Assess your skills in Bootstrap framework.",
     icon: "fa-brands fa-bootstrap text-purple"
   },
-  {
-    id: "webdesign",
-    title: "Web Design Concepts",
-    description: "Explore layout, UI/UX & visual principles.",
-    icon: "fa-solid fa-paintbrush text-success"
-  }
 ];
 
 
@@ -99,6 +99,19 @@ function selectQuiz(quizId) {
   localStorage.setItem("selectedQuiz", quizId);
   window.location.href = "enter-name.html";
 }
+
+
+  setTimeout(() => {
+  console.log(
+    "%c✨ Designed and Developed by Harsh Pandey",
+    "color: #007bff; font-weight: bold; font-size: 16px;"
+  );
+  console.log(
+    "%c🔗 https://lucifer01430.github.io/Portfolio/",
+    "color: #28a745; font-size: 14px;"
+  );
+}, 2000);
+
 </script>
 
 </body>
